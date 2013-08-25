@@ -12,7 +12,7 @@
 Chat page
 {% end %}
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="ChatCtrl">
     <div class="row-fluid">
         <div class="span3">
             <div class="well sidebar-nav">
@@ -27,14 +27,12 @@ Chat page
         </div><!--/span-->
         <div class="span9">
             <div class="hero-unit chat-window">
-                <!--<h1>Hello, world!</h1>
-                <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-                <p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>-->
+                {[ result ]}
             </div>
             <div class="row-fluid">
                 <div class="input-append">
-                    <input class="chat-input" id="appendedInputButton" type="text">
-                    <button class="btn" type="button">Send!</button>
+                    <input class="chat-input" id="appendedInputButton" ng-model="item" type="text">
+                    <button class="btn" type="button" ng-click="SendMessage(item)">Send!</button>
                 </div>
             </div><!--/row-->
         </div><!--/span-->
