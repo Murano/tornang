@@ -1,0 +1,1 @@
+chat = angular.module("chat", ['ngResource', "ui.compat"])
