@@ -1,5 +1,6 @@
 import tornado.web as web
 import tornado.escape
+import json
 import time
 import uuid
 from app import message
@@ -18,7 +19,11 @@ class IndexHandler(web.RequestHandler):
 global_message_buffer = message.MessageBuffer()
 
 class BaseChatHandler(web.RequestHandler):
-    pass
+    def get_current_user(self):
+        return {"first_name": "Ivanov"}
+        # user_json = self.get_secure_cookie("chatdemo_user")
+        # if not user_json: return None
+        # return tornado.escape.json_decode(user_json)
 
 
 class MainChatHandler(BaseChatHandler):
@@ -29,16 +34,21 @@ class MainChatHandler(BaseChatHandler):
 class MessageNewHandler(BaseChatHandler):
 
     def post(self):
+        # self.arguments = json.json_decode(self.request.body)
+        # json.
+        arguments = json.loads(self.request.body)
         message = {
             "id": str(uuid.uuid4()),
             "from": self.current_user["first_name"],
-            "body": self.get_argument("body"),
+            "body": arguments["body"],
             "time": time.strftime("%d %b %Y %H:%M:%S")
         }
+
+        # print message
         # to_basestring is necessary for Python 3's json encoder,
         # which doesn't accept byte strings.
-        message["html"] = tornado.escape.to_basestring(
-            self.render_string("message.html", message=message))
+        # message["html"] = tornado.escape.to_basestring(
+        #     self.render_string("message.html", message=message))
         if self.get_argument("next", None):
             self.redirect(self.get_argument("next"))
         else:
@@ -47,10 +57,11 @@ class MessageNewHandler(BaseChatHandler):
 
 
 class MessageUpdatesHandler(BaseChatHandler):
-    @tornado.web.authenticated
     @tornado.web.asynchronous
-    def post(self):
-        cursor = self.get_argument("cursor", None)
+    def get(self, cursor):
+        # print self.request.body
+        # arguments = json.loads(self.request.body)
+        # cursor = arguments["cursor"]
         global_message_buffer.wait_for_messages(self.on_new_messages,
                                                 cursor=cursor)
 
