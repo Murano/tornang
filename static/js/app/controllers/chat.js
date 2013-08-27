@@ -1,4 +1,5 @@
-chat.controller('ChatCtrl', ['$scope', '$http','$timeout', 'NewMessage', function($scope, $http, $timeout, NewMessage){
+chat.controller('ChatCtrl', ['$scope', '$http','$timeout', 'NewMessage', '$anchorScroll', '$location',
+    function($scope, $http, $timeout, NewMessage, $anchorScroll, $location){
     $scope.result = [];
     $scope.cursor = 0;
     $scope.SendMessage = function(){
@@ -14,6 +15,8 @@ chat.controller('ChatCtrl', ['$scope', '$http','$timeout', 'NewMessage', functio
             $scope.result = $scope.result.concat(response.data.messages);
             len = response.data.messages.length;
             $scope.cursor = response.data.messages[len-1].id;
+            $location.hash(len);
+            $anchorScroll();
             $timeout(poller, 1000);
         }, function(response){
             $timeout(poller, 3000);

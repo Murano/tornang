@@ -28,14 +28,13 @@ class BaseChatHandler(web.RequestHandler):
 
 class MainChatHandler(BaseChatHandler):
     def get(self):
-        self.render('templates/chat.html', messages=global_message_buffer.cache)
+        self.render('templates/chat.html')
 
 
 class MessageNewHandler(BaseChatHandler):
 
     def post(self):
-        # self.arguments = json.json_decode(self.request.body)
-        # json.
+
         arguments = json.loads(self.request.body)
         message = {
             "id": str(uuid.uuid4()),
@@ -44,24 +43,12 @@ class MessageNewHandler(BaseChatHandler):
             "time": time.strftime("%d %b %Y %H:%M:%S")
         }
 
-        # print message
-        # to_basestring is necessary for Python 3's json encoder,
-        # which doesn't accept byte strings.
-        # message["html"] = tornado.escape.to_basestring(
-        #     self.render_string("message.html", message=message))
-        # if self.get_argument("next", None):
-        #     self.redirect(self.get_argument("next"))
-        # else:
-        #     self.write(message)
         global_message_buffer.new_messages([message])
 
 
 class MessageUpdatesHandler(BaseChatHandler):
     @tornado.web.asynchronous
     def get(self, cursor):
-        # print self.request.body
-        # arguments = json.loads(self.request.body)
-        # cursor = arguments["cursor"]
         global_message_buffer.wait_for_messages(self.on_new_messages,
                                                 cursor=cursor)
 
