@@ -28,7 +28,7 @@ class BaseChatHandler(web.RequestHandler):
 
 class MainChatHandler(BaseChatHandler):
     def get(self):
-        self.render('templates/chat.html')
+        self.render('templates/chat.html', messages=global_message_buffer.cache)
 
 
 class MessageNewHandler(BaseChatHandler):
@@ -49,10 +49,10 @@ class MessageNewHandler(BaseChatHandler):
         # which doesn't accept byte strings.
         # message["html"] = tornado.escape.to_basestring(
         #     self.render_string("message.html", message=message))
-        if self.get_argument("next", None):
-            self.redirect(self.get_argument("next"))
-        else:
-            self.write(message)
+        # if self.get_argument("next", None):
+        #     self.redirect(self.get_argument("next"))
+        # else:
+        #     self.write(message)
         global_message_buffer.new_messages([message])
 
 

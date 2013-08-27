@@ -27,8 +27,10 @@ Chat page
             </div><!--/.well -->
         </div><!--/span-->
         <div class="span9">
-            <div class="hero-unit chat-window">
-                <div ng-repeat="messages in result">
+            <div class="chat-window">
+                <div ng-repeat="messages in result" class="chat-message">
+                    <span class="chat-name">[{[messages.from]}]</span>
+                    <span class="chat-time">{[messages.time]}</span>
                     {[messages.body]}
                 </div>
             </div>

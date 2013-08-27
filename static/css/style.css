@@ -18,8 +18,33 @@ body {
 
 .chat-window {
     height: 260px;
+    overflow-y: scroll;
+    background-color: #FFF;
+    border-radius: 6px 6px 6px 6px;
+    border: 1px solid #E3E3E3;
+    color: inherit;
+    font-size: 18px;
+    font-weight: 200;
+    line-height: 30px;
+    margin-bottom: 30px;
+    padding-left: 10px;
+}
+
+.chat-message {
+    font-size: 13pt;
+    font-weight: normal;
 }
 
 .chat-input {
     width: 400px;
+}
+
+.chat-name {
+    font-size: 11pt;
+    color: lightblue;
+}
+
+.chat-time {
+    font-size: 10pt;
+    color: #e6c74c;
 }

@@ -11,9 +11,13 @@ chat.controller('ChatCtrl', ['$scope', '$http','$timeout', 'NewMessage', functio
 
     var poller = function() {
         $http.get('/a/message/updates/' + $scope.cursor).then(function(response) {
-            $scope.result.push(response.data.messages[0]);
-            $scope.cursor = response.data.messages[0].id;
+            $scope.result = $scope.result.concat(response.data.messages);
+            console.log($scope.result);
+            len = response.data.messages.length;
+            $scope.cursor = response.data.messages[len-1].id;
             $timeout(poller, 1000);
+        }, function(response){
+            $timeout(poller, 3000);
         });
 
     };
