@@ -8,4 +8,5 @@ application = web.Application(app.settings.handlers, debug=True)
 
 if __name__ == "__main__":
     application.listen(8888)
+    print('listen 8888...')
     ioloop.IOLoop.instance().start()
